@@ -326,6 +326,127 @@ Without unnecessary complexity or dependency bloat.
 
 ---
 
+## Environment & Configuration
+
+DarkDapp Framework includes a lightweight environment and configuration system built without external dependencies.
+
+---
+
+### Environment File
+
+Create a `.env` file in the project root:
+
+```env
+APP_NAME=DarkDapp
+APP_DEBUG=true
+
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=darkdapp
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+---
+
+### Loading Environment Variables
+
+The framework automatically loads the `.env` file during bootstrap.
+
+Example:
+
+```php
+Core\Env::load(__DIR__ . '/.env');
+```
+
+---
+
+### Access Environment Variables
+
+Use the `Env` class anywhere in the framework:
+
+```php
+use Core\Env;
+
+Env::get('APP_NAME');
+Env::get('APP_DEBUG');
+```
+
+Supported automatic value conversion:
+
+| Value | Converted To  |
+|-------|---------------|
+| true  | boolean true  |
+| false | boolean false |
+| null  | null          |
+
+---
+
+### Configuration Files
+
+Configuration files are stored inside:
+
+```txt
+Config/
+```
+
+Example:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use Core\Env;
+
+return [
+    'name' => Env::get('APP_NAME', 'DarkDapp'),
+    'debug' => Env::get('APP_DEBUG', false),
+];
+```
+
+---
+
+### Access Configuration Values
+
+The framework supports dot notation:
+
+```php
+$config->get('app.name');
+$config->get('database.host');
+```
+
+Example inside a controller:
+
+```php
+use Core\Config;
+
+final class HomeController
+{
+    public function __construct(
+        private readonly Config $config
+    ) {}
+
+    public function index(): array
+    {
+        return [
+            'app' => $this->config->get('app.name'),
+        ];
+    }
+}
+```
+
+---
+
+### Features
+
+- Lightweight `.env` loader
+- Dot notation configuration access
+- Automatic dependency injection
+- No external libraries required
+- PHP 8.2 compatible
+- Clean and extensible architecture
+
 # License
 
 MIT License

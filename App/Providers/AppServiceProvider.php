@@ -8,7 +8,7 @@ use Core\Request;
 use Core\Response;
 use Core\Router;
 use Core\ServiceProvider;
-
+use Core\Config;
 /**
  * Main application service provider.
  *
@@ -36,6 +36,11 @@ final class AppServiceProvider extends ServiceProvider
         $this->container->singleton(
             Router::class,
             fn($container) => new Router($container)
+        );
+
+        $this->container->singleton(
+            Config::class,
+            fn() => new Config()
         );
     }
 }

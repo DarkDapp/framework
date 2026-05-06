@@ -43,3 +43,10 @@ Core\AutoLoader::addNamespace(
     'App',
     __DIR__ . '/App'
 );
+
+Core\AutoLoader::addNamespace(
+    'Config',
+    __DIR__ . '/Config'
+);
+
+Core\Env::load(__DIR__ . '/.env');
