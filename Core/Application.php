@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Core;
 
+use Core\Exceptions\Handler;
 use Throwable;
 
 /**
@@ -21,6 +22,7 @@ final readonly class Application
     private Request $request;
     private Response $response;
     private Router $router;
+    private Handler $exceptionHandler;
 
     /**
      * @param array<int, class-string> $providers
@@ -34,6 +36,7 @@ final readonly class Application
         $this->request = $this->container->get(Request::class);
         $this->response = $this->container->get(Response::class);
         $this->router = $this->container->get(Router::class);
+        $this->exceptionHandler = $this->container->get(Handler::class);
     }
 
     /**
@@ -62,11 +65,7 @@ final readonly class Application
 
         } catch (Throwable $e) {
 
-            http_response_code(500);
-
-            echo ini_get('display_errors')
-                ? $e->getMessage()
-                : 'Internal Server Error';
+            $this->exceptionHandler->handle($e);
         }
     }
 

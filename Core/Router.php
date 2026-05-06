@@ -6,6 +6,7 @@ namespace Core;
 
 use Closure;
 use LogicException;
+use Core\Exceptions\NotFoundException;
 
 /**
  * HTTP routing engine.
@@ -101,10 +102,7 @@ final class Router
             }
         }
 
-        throw new LogicException(
-            "Route not found: $requestUri",
-            404
-        );
+        throw new NotFoundException();
     }
     /**
      * Convert /user/{id} → regex
