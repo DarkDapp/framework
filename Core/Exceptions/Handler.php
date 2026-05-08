@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Exceptions;
 
+use Core\Config;
 use Core\Logger;
 use Core\Request;
 use Throwable;
@@ -70,7 +71,7 @@ final class Handler
         int $status
     ): never {
 
-        $debug = (bool) ($_ENV['APP_DEBUG'] ?? false);
+        $debug = Config::get('app.debug', false);
 
         if ($debug) {
 

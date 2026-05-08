@@ -1,7 +1,7 @@
 # DarkDapp Framework
 
 A modern lightweight PHP MVC framework built for performance, simplicity, and extensibility.
-
+Built with modern PHP 8.2 and zero external dependencies.
 ---
 
 # Overview
@@ -326,7 +326,7 @@ Without unnecessary complexity or dependency bloat.
 
 ---
 
-## Environment & Configuration
+# Environment & Configuration
 
 DarkDapp Framework includes a lightweight environment and configuration system built without external dependencies.
 
@@ -531,6 +531,118 @@ When `APP_DEBUG=true`:
 - line number
 
 will be displayed automatically.
+
+---
+
+# Core Components
+
+## Application
+
+Handles the application lifecycle:
+
+- service provider bootstrapping
+- request dispatching
+- response handling
+- exception handling
+
+---
+
+## Container
+
+Dependency Injection container with:
+
+- singleton bindings
+- lazy resolution
+- reflection-based autowiring
+
+---
+
+## Router
+
+Handles:
+
+- route registration
+- dynamic route parameters
+- middleware execution
+- controller dispatching
+
+---
+
+## Request
+
+Provides access to:
+
+- request URI
+- HTTP method
+- query parameters
+- form input
+
+---
+
+## Response
+
+Supports:
+
+- HTML responses
+- JSON responses
+- redirects
+- HTTP status handling
+
+---
+
+## Logger
+
+Lightweight built-in logging system.
+
+Supports:
+
+- info logs
+- warning logs
+- error logs
+- debug logs
+
+---
+
+## Exception Handler
+
+Centralized exception handling system with:
+
+- API JSON responses
+- HTML error rendering
+- debug mode support
+- automatic logging
+
+---
+
+# Future Roadmap
+
+Planned upcoming features:
+
+- View Rendering Engine
+- Session Management
+- CSRF Protection
+- Validation System
+- Database Layer (PDO)
+- Query Builder
+- Authentication System
+- Console Commands
+- Event System
+- Cache System
+
+---
+
+# Design Goals
+
+DarkDapp Framework is designed to remain:
+
+- lightweight
+- dependency-free
+- easy to understand
+- production ready
+- beginner friendly
+- highly extensible
+
+The framework avoids unnecessary abstraction and complexity.
 
 ---
 

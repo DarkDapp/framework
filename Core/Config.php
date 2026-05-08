@@ -4,29 +4,21 @@ declare(strict_types=1);
 
 namespace Core;
 
-use RuntimeException;
-
 final class Config
 {
     /**
-     * Loaded configuration files
+     * Loaded configuration files.
      *
-     * @var array<string, array<string, mixed>>
+     * @var array<string, mixed>
      */
-    private array $items = [];
-
-    public function __construct(
-        private readonly string $path = __DIR__ . '/../Config'
-    ) {
-        $this->load();
-    }
+    private static array $items = [];
 
     /**
-     * Load all config files
+     * Load config directory.
      */
-    private function load(): void
+    public static function load(string $path): void
     {
-        $files = glob($this->path . '/*.php');
+        $files = glob($path . '/*.php');
 
         if ($files === false) {
             return;
@@ -34,41 +26,33 @@ final class Config
 
         foreach ($files as $file) {
 
-            $key = pathinfo($file, PATHINFO_FILENAME);
+            $name = pathinfo($file, PATHINFO_FILENAME);
 
-            $config = require $file;
-
-            if (!is_array($config)) {
-                throw new RuntimeException(
-                    "Invalid config file: $file"
-                );
-            }
-
-            $this->items[$key] = $config;
+            self::$items[$name] = require $file;
         }
     }
 
     /**
-     * Get config value using dot notation
+     * Get configuration value.
      */
-    public function get(
+    public static function get(
         string $key,
         mixed $default = null
     ): mixed {
 
         $segments = explode('.', $key);
 
-        $data = $this->items;
+        $config = self::$items;
 
         foreach ($segments as $segment) {
 
-            if (!is_array($data) || !array_key_exists($segment, $data)) {
+            if (!isset($config[$segment])) {
                 return $default;
             }
 
-            $data = $data[$segment];
+            $config = $config[$segment];
         }
 
-        return $data;
+        return $config;
     }
 }

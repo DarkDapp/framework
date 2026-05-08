@@ -7,14 +7,14 @@ namespace Core;
 final class Env
 {
     /**
-     * Loaded environment variables
+     * Loaded environment variables.
      *
      * @var array<string, string>
      */
     private static array $variables = [];
 
     /**
-     * Load .env file
+     * Load .env file.
      */
     public static function load(string $path): void
     {
@@ -52,22 +52,14 @@ final class Env
     }
 
     /**
-     * Get environment variable
+     * Get environment value.
      */
     public static function get(
         string $key,
         mixed $default = null
     ): mixed {
-
-        $value = self::$variables[$key]
+        return self::$variables[$key]
             ?? $_ENV[$key]
             ?? $default;
-
-        return match (strtolower((string) $value)) {
-            'true' => true,
-            'false' => false,
-            'null' => null,
-            default => $value,
-        };
     }
 }

@@ -50,3 +50,4 @@ Core\AutoLoader::addNamespace(
 );
 
 Core\Env::load(__DIR__ . '/.env');
+Core\Config::load(__DIR__ . '/Config');
