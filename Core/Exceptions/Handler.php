@@ -4,54 +4,75 @@ declare(strict_types=1);
 
 namespace Core\Exceptions;
 
-use Throwable;
 use Core\Request;
-use Core\Response;
+use Throwable;
 
-final readonly class Handler
+final class Handler
 {
-    public function __construct(
-        private Request $request,
-        private Response $response,
-    ) {}
+    public function render(
+        Request $request,
+        Throwable $e
+    ): never {
 
-    public function handle(Throwable $e): never
-    {
-        $status = $this->resolveStatusCode($e);
+        $status = $this->status($e);
 
         http_response_code($status);
 
-        if ($this->request->isApi()) {
-            $this->response->json([
-                'error' => $e->getMessage(),
-                'status' => $status,
-            ]);
+        if ($request->isApi()) {
+            $this->renderJson($e, $status);
         }
 
-        if (ini_get('display_errors')) {
-            echo $e->getMessage();
-        } else {
-            echo $this->defaultMessage($status);
-        }
+        $this->renderHtml($e, $status);
+    }
+
+    private function renderJson(
+        Throwable $e,
+        int $status
+    ): never {
+
+        header('Content-Type: application/json; charset=utf-8');
+
+        echo json_encode([
+            'error' => $e->getMessage(),
+            'status' => $status,
+        ]);
 
         exit;
     }
 
-    private function resolveStatusCode(Throwable $e): int
-    {
-        $code = $e->getCode();
+    private function renderHtml(
+        Throwable $e,
+        int $status
+    ): never {
 
-        return ($code >= 100 && $code <= 599)
-            ? $code
-            : 500;
+        $debug = (bool) ($_ENV['APP_DEBUG'] ?? false);
+
+        if ($debug) {
+
+            echo <<<HTML
+                <h1>Exception</h1>
+                <p><strong>Message:</strong> {$e->getMessage()}</p>
+                <p><strong>File:</strong> {$e->getFile()}</p>
+                <p><strong>Line:</strong> {$e->getLine()}</p>
+                HTML;
+            exit;
+        }
+
+        echo match ($status) {
+            404 => '404 | Page Not Found',
+            405 => '405 | Method Not Allowed',
+            default => '500 | Internal Server Error',
+        };
+
+        exit;
     }
 
-    private function defaultMessage(int $status): string
+    private function status(Throwable $e): int
     {
-        return match ($status) {
-            404 => '404 Not Found',
-            405 => '405 Method Not Allowed',
-            default => 'Internal Server Error',
-        };
+        if ($e instanceof HttpException) {
+            return $e->status();
+        }
+
+        return 500;
     }
 }
