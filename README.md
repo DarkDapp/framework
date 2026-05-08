@@ -447,6 +447,93 @@ final class HomeController
 - PHP 8.2 compatible
 - Clean and extensible architecture
 
+---
+
+# Logging System
+
+DarkDapp Framework includes a lightweight built-in logging system.
+
+## Features
+
+- INFO logs
+- WARNING logs
+- ERROR logs
+- DEBUG logs
+- Automatic exception logging
+- File-based logging
+- Thread-safe writes using `LOCK_EX`
+
+## Log File
+
+```txt
+storage/logs/app.log
+```
+
+## Usage
+
+```php
+use Core\Logger;
+
+Logger::info('Application started');
+
+Logger::warning('Invalid request detected');
+
+Logger::error('Database connection failed');
+
+Logger::debug('Debug message');
+```
+
+## Example Output
+
+```txt
+[2026-08-08 12:30:11] INFO: Application started
+[2026-08-08 12:31:02] ERROR: Route not found
+```
+
+---
+
+# Exception Handling
+
+DarkDapp Framework provides a centralized exception handling system.
+
+## Features
+
+- HTML exception rendering
+- JSON API exception rendering
+- Automatic HTTP status handling
+- Custom HTTP exceptions
+- Automatic exception logging
+
+## Supported Exceptions
+
+| Exception                 | Status |
+|---------------------------|--------|
+| NotFoundException         | 404    |
+| MethodNotAllowedException | 405    |
+| HttpException             | Custom |
+| Throwable                 | 500    |
+
+## API Error Example
+
+```json
+{
+  "error": "Route not found",
+  "status": 404
+}
+```
+
+## Debug Mode
+
+When `APP_DEBUG=true`:
+
+- exception message
+- file path
+- line number
+
+will be displayed automatically.
+
+---
+
 # License
 
 MIT License

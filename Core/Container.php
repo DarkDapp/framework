@@ -58,7 +58,11 @@ final class Container
     }
 
     /**
-     * Resolve a service from the container.
+     * Resolve instance from container.
+     *
+     * @template T
+     * @param class-string<T> $key
+     * @return T
      */
     public function get(string $key): mixed
     {

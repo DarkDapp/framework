@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Core\Exceptions;
 
+use Core\Logger;
 use Core\Request;
 use Throwable;
 
 final class Handler
 {
+    /**
+     * Render exception response.
+     */
     public function render(
         Request $request,
         Throwable $e
@@ -18,6 +22,8 @@ final class Handler
 
         http_response_code($status);
 
+        $this->report($e);
+
         if ($request->isApi()) {
             $this->renderJson($e, $status);
         }
@@ -25,6 +31,22 @@ final class Handler
         $this->renderHtml($e, $status);
     }
 
+    /**
+     * Report exception to log file.
+     */
+    private function report(Throwable $e): void
+    {
+        Logger::error(sprintf(
+            '%s in %s:%d',
+            $e->getMessage(),
+            $e->getFile(),
+            $e->getLine()
+        ));
+    }
+
+    /**
+     * Render JSON error response.
+     */
     private function renderJson(
         Throwable $e,
         int $status
@@ -40,6 +62,9 @@ final class Handler
         exit;
     }
 
+    /**
+     * Render HTML error response.
+     */
     private function renderHtml(
         Throwable $e,
         int $status
@@ -50,11 +75,12 @@ final class Handler
         if ($debug) {
 
             echo <<<HTML
-                <h1>Exception</h1>
-                <p><strong>Message:</strong> {$e->getMessage()}</p>
-                <p><strong>File:</strong> {$e->getFile()}</p>
-                <p><strong>Line:</strong> {$e->getLine()}</p>
-                HTML;
+            <h1>Exception</h1>
+            <p><strong>Message:</strong> {$e->getMessage()}</p>
+            <p><strong>File:</strong> {$e->getFile()}</p>
+            <p><strong>Line:</strong> {$e->getLine()}</p>
+            HTML;
+
             exit;
         }
 
@@ -67,6 +93,9 @@ final class Handler
         exit;
     }
 
+    /**
+     * Resolve HTTP status code.
+     */
     private function status(Throwable $e): int
     {
         if ($e instanceof HttpException) {

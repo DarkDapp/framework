@@ -63,9 +63,8 @@ final readonly class Application
 
         } catch (Throwable $e) {
 
-            $this->container
-                ->get(Handler::class)
-                ->render($this->request, $e);
+            $handler = $this->container->get(Handler::class);
+            $handler->render($this->request, $e);
         }
     }
 
