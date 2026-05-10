@@ -4,21 +4,24 @@ declare(strict_types=1);
 
 namespace Core;
 
+/**
+ * Lightweight configuration manager.
+ */
 final class Config
 {
     /**
-     * Loaded configuration files.
+     * Loaded configuration items.
      *
      * @var array<string, mixed>
      */
     private static array $items = [];
 
     /**
-     * Load config directory.
+     * Load configuration directory.
      */
     public static function load(string $path): void
     {
-        $files = glob($path . '/*.php');
+        $files = glob(rtrim($path, '/') . '/*.php');
 
         if ($files === false) {
             return;
@@ -26,14 +29,17 @@ final class Config
 
         foreach ($files as $file) {
 
-            $name = pathinfo($file, PATHINFO_FILENAME);
+            $name = pathinfo(
+                $file,
+                PATHINFO_FILENAME
+            );
 
             self::$items[$name] = require $file;
         }
     }
 
     /**
-     * Get configuration value.
+     * Get configuration value using dot notation.
      */
     public static function get(
         string $key,
@@ -46,7 +52,10 @@ final class Config
 
         foreach ($segments as $segment) {
 
-            if (!isset($config[$segment])) {
+            if (
+                !is_array($config)
+                || !array_key_exists($segment, $config)
+            ) {
                 return $default;
             }
 
@@ -54,5 +63,21 @@ final class Config
         }
 
         return $config;
+    }
+
+    /**
+     * Determine if config key exists.
+     */
+    public static function has(string $key): bool
+    {
+        return self::get($key) !== null;
+    }
+
+    /**
+     * Get all loaded configuration.
+     */
+    public static function all(): array
+    {
+        return self::$items;
     }
 }

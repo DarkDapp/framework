@@ -16,6 +16,7 @@ declare(strict_types=1);
  */
 
 require_once __DIR__ . '/Core/AutoLoader.php';
+require_once __DIR__ . '/Config/helpers.php';
 
 /*
 |--------------------------------------------------------------------------

@@ -19,7 +19,9 @@ final class HomeController
      */
     public function index(): string
     {
-        return 'Home Controller';
+        return view('home', [
+            'title' => 'DarkDApp'
+        ]);
     }
 
     /**
