@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use Core\Session\Session;
 /**
  * Example application controller.
  *
@@ -19,8 +20,10 @@ final class HomeController
      */
     public function index(): string
     {
+        Session::set('message', 'DarkDApp');
+
         return view('home', [
-            'title' => 'DarkDApp'
+            'title' => Session::get('message')
         ]);
     }
 
