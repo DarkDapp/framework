@@ -17,4 +17,9 @@ return [
 
     'url' => Env::get('APP_URL'),
 
+    'secure' => Env::get(
+        'SESSION_SECURE_COOKIE',
+        true
+    )
+
 ];

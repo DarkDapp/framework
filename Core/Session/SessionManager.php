@@ -52,19 +52,9 @@ final readonly class SessionManager
             'lifetime' => $this->lifetime,
             'path' => '/',
             'domain' => '',
-            'secure' => $this->isSecure(),
+            'secure' => (bool) config('session.secure',true),
             'httponly' => true,
-            'samesite' => 'Lax',
+            'samesite' => 'Strict',
         ]);
-    }
-
-    /**
-     * Detect HTTPS.
-     */
-    private function isSecure(): bool
-    {
-        return
-            (!empty($_SERVER['HTTPS']))
-            && $_SERVER['HTTPS'] !== 'off';
     }
 }
