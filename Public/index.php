@@ -16,7 +16,7 @@ declare(strict_types=1);
  *
  */
 
-require dirname(__DIR__) . '/bootstrap.php';
+require_once dirname(__DIR__) . '/bootstrap.php';
 
 $app = Core\Kernel::make();
 

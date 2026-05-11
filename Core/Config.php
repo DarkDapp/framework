@@ -34,7 +34,7 @@ final class Config
                 PATHINFO_FILENAME
             );
 
-            self::$items[$name] = require $file;
+            self::$items[$name] = require_once $file;
         }
     }
 

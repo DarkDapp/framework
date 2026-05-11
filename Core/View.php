@@ -32,7 +32,7 @@ final class View
 
         ob_start();
 
-        require $viewPath;
+        require_once $viewPath;
 
         $content = (string) ob_get_clean();
 
@@ -44,7 +44,7 @@ final class View
 
         ob_start();
 
-        require $layoutPath;
+        require_once $layoutPath;
 
         $layoutContent = (string) ob_get_clean();
 

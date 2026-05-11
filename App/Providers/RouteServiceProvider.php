@@ -31,11 +31,11 @@ final class RouteServiceProvider extends ServiceProvider
         $api = dirname(__DIR__, 2) . '/routes/api.php';
 
         if (is_file($web)) {
-            require $web;
+            require_once $web;
         }
 
         if (is_file($api)) {
-            require $api;
+            require_once $api;
         }
     }
 }
