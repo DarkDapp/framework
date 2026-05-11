@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Core\Exceptions;
 
-use RuntimeException;
+use Exception;
 
 final class CsrfTokenGenerationException
-    extends RuntimeException
+    extends Exception
 {
 }
