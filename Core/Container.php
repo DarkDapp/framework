@@ -7,7 +7,7 @@ namespace Core;
 use Closure;
 use ReflectionClass;
 use ReflectionException;
-use RuntimeException;
+use Core\Exceptions\ContainerException;
 
 /**
  * Dependency Injection Container.
@@ -63,6 +63,7 @@ final class Container
      * @template T
      * @param class-string<T> $key
      * @return T
+     * @throws ContainerException
      */
     public function get(string $key): mixed
     {
@@ -75,11 +76,12 @@ final class Container
 
     /**
      * Automatically resolve class dependencies.
+     * @throws ContainerException
      */
     private function resolve(string $class): object
     {
         if (!class_exists($class)) {
-            throw new RuntimeException("Class not found: $class");
+            throw new ContainerException("Class not found: $class");
         }
 
         try {
@@ -87,7 +89,7 @@ final class Container
             $reflection = new ReflectionClass($class);
 
             if (!$reflection->isInstantiable()) {
-                throw new RuntimeException(
+                throw new ContainerException(
                     "Class is not instantiable: $class"
                 );
             }
@@ -111,7 +113,7 @@ final class Container
                 $type = $param->getType();
 
                 if (!$type || $type->isBuiltin()) {
-                    throw new RuntimeException(
+                    throw new ContainerException(
                         "Cannot resolve parameter \${$param->getName()} in $class"
                     );
                 }
@@ -125,7 +127,7 @@ final class Container
 
         } catch (ReflectionException $e) {
 
-            throw new RuntimeException(
+            throw new ContainerException(
                 $e->getMessage(),
                 0,
                 $e
