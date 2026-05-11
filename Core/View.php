@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Core;
 
-use RuntimeException;
+use Core\Exceptions\ViewNotFoundException;
+use Core\Exceptions\InvalidViewPathException;
 
 /**
  * Lightweight PHP view renderer.
@@ -13,6 +14,7 @@ final class View
 {
     /**
      * Render view file.
+     * @throws ViewNotFoundException
      */
     public static function make(
         string $view,
@@ -23,9 +25,7 @@ final class View
         $viewPath = self::path($view);
 
         if (!is_file($viewPath)) {
-            throw new RuntimeException(
-                "View not found: $view"
-            );
+            throw new ViewNotFoundException($view);
         }
 
         extract($data, EXTR_SKIP);
@@ -61,7 +61,7 @@ final class View
     private static function path(string $view): string
     {
         if (str_contains($view, '..')) {
-            throw new RuntimeException(
+            throw new InvalidViewPathException(
                 'Invalid view path.'
             );
         }
