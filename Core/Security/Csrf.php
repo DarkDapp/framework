@@ -6,7 +6,7 @@ namespace Core\Security;
 
 use Core\Session\Session;
 use Random\RandomException;
-use RuntimeException;
+use Core\Exceptions\CsrfTokenGenerationException;
 
 /**
  * CSRF token manager.
@@ -33,7 +33,7 @@ final class Csrf
 
             } catch (RandomException $e) {
 
-                throw new RuntimeException(
+                throw new CsrfTokenGenerationException(
                     'Unable to generate CSRF token.',
                     0,
                     $e
