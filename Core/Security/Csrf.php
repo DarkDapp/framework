@@ -20,6 +20,7 @@ final class Csrf
 
     /**
      * Generate or retrieve token.
+     * @throws CsrfTokenGenerationException
      */
     public static function token(): string
     {
