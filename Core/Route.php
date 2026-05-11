@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Core;
 
 use Closure;
-use RuntimeException;
+use Core\Exceptions\RouterNotSetException;
 
 /**
  * Static route registration API.
@@ -28,7 +28,7 @@ final class Route
     private static function router(): Router
     {
         if (self::$router === null) {
-            throw new RuntimeException('Router has not been set.');
+            throw new RouterNotSetException('Router has not been set.');
         }
 
         return self::$router;
