@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Session;
 
-use RuntimeException;
+use InvalidArgumentException;
 use SessionHandlerInterface;
 
 /**
@@ -104,7 +104,7 @@ final readonly class FileSessionHandler implements SessionHandlerInterface
         $id = preg_replace('/[^a-zA-Z0-9]/', '', $id);
 
         if ($id === '') {
-            throw new RuntimeException(
+            throw new InvalidArgumentException(
                 'Invalid session id.'
             );
         }
