@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Core\Security\Csrf;
 use Core\View;
+use Core\Exceptions\ViewNotFoundException;
 use Core\Exceptions\CsrfTokenGenerationException;
 
 if (!function_exists('e')) {
@@ -22,6 +23,9 @@ if (!function_exists('config')) {
 }
 if (!function_exists('view')) {
 
+    /**
+     * @throws ViewNotFoundException
+     */
     function view(
         string $view,
         array $data = []
