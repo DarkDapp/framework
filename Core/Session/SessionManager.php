@@ -12,7 +12,7 @@ final readonly class SessionManager
     public function __construct(
         private string $path,
         private string $name = 'darkdapp_session',
-        private int $lifetime = 7200,
+        private int    $lifetime = 7200,
     ) {}
 
     /**
@@ -24,41 +24,21 @@ final readonly class SessionManager
             return;
         }
 
-        $this->configure();
-
         $handler = new FileSessionHandler(
             $this->path,
             $this->name
         );
 
         session_set_save_handler($handler, true);
-
         session_name($this->name);
-
         session_save_path($this->path);
 
         session_start([
             'cookie_lifetime' => $this->lifetime,
-            'use_strict_mode' => true,
-            'cookie_secure' => true,
+            'cookie_secure'   => true,
             'cookie_httponly' => true,
             'cookie_samesite' => 'Strict',
-        ]);
-    }
-
-    /**
-     * Configure secure session environment.
-     */
-    private function configure(): void
-    {
-        ini_set('session.cookie_secure', '1');
-        ini_set('session.cookie_httponly', '1');
-        ini_set('session.cookie_samesite', 'Strict');
-
-        session_set_cookie_params([
-            'lifetime' => $this->lifetime,
-            'path' => '/',
-            'domain' => '',
+            'use_strict_mode' => true,
         ]);
     }
 }
