@@ -69,6 +69,7 @@ final class Csrf
 
     /**
      * Generate hidden form field.
+     * @throws CsrfTokenGenerationException
      */
     public static function field(): string
     {

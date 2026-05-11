@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Core\Security\Csrf;
 use Core\View;
+use Core\Exceptions\CsrfTokenGenerationException;
 
 if (!function_exists('e')) {
     function e($value): string {
@@ -28,12 +29,13 @@ if (!function_exists('view')) {
         return View::make($view, $data);
     }
 }
-if (!function_exists('csrf_token')) {
+if (!function_exists('csrfToken')) {
 
     /**
      * Get CSRF token.
+     * @throws CsrfTokenGenerationException
      */
-    function csrf_token(): string
+    function csrfToken(): string
     {
         return Csrf::token();
     }
