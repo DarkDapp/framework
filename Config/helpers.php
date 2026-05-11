@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Core\Security\Csrf;
 use Core\View;
 
 if (!function_exists('e')) {
@@ -25,5 +26,25 @@ if (!function_exists('view')) {
         array $data = []
     ): string {
         return View::make($view, $data);
+    }
+}
+if (!function_exists('csrf_token')) {
+
+    /**
+     * Get CSRF token.
+     */
+    function csrf_token(): string
+    {
+        return Csrf::token();
+    }
+}
+if (!function_exists('csrf')) {
+
+    /**
+     * Generate CSRF hidden field.
+     */
+    function csrf(): string
+    {
+        return Csrf::field();
     }
 }

@@ -88,6 +88,7 @@ final class Handler
         echo match ($status) {
             404 => '404 | Page Not Found',
             405 => '405 | Method Not Allowed',
+            419 => '419 | CSRF Token Mismatch',
             default => '500 | Internal Server Error',
         };
 

@@ -17,3 +17,11 @@ Route::get('/admin', function () {
     return 'Admin Panel';
 })
     ->middleware(AuthMiddleware::class);
+
+use App\Middleware\CsrfMiddleware;
+
+Route::post('/profile', function () {
+
+    return 'Saved';
+
+})->middleware(CsrfMiddleware::class);
