@@ -52,7 +52,7 @@ final readonly class SessionManager
             'lifetime' => $this->lifetime,
             'path' => '/',
             'domain' => '',
-            'secure' => (bool) config('session.secure',true),
+            'secure' => true,
             'httponly' => true,
             'samesite' => 'Strict',
         ]);
