@@ -44,6 +44,7 @@ if (!function_exists('csrf')) {
 
     /**
      * Generate CSRF hidden field.
+     * @throws CsrfTokenGenerationException
      */
     function csrf(): string
     {
